@@ -33,3 +33,18 @@ def list_decks(request: Request):
         ).fetchall()
 
     return render(request, "decks.html", decks=decks)
+
+
+@app.get("/decks/newest")
+def newest_deck(request: Request):
+    with get_connection() as conn:
+        deck = conn.execute(
+            """
+            SELECT id, name, description
+            FROM decks
+            ORDER BY created_at DESC
+            LIMIT 1
+            """
+        ).fetchone()
+
+    return render(request, "newest_deck.html", deck=deck)

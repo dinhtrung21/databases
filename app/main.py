@@ -75,6 +75,14 @@ def create_tag(name: str = Form(...)):
     return RedirectResponse("/tags", status_code=303)
 
 
+@app.post("/tags/{tag_id}/delete")
+def delete_tag(tag_id: int):
+    with get_connection() as conn:
+        conn.execute(t"DELETE FROM tags WHERE id = {tag_id}")
+
+    return RedirectResponse("/tags", status_code=303)
+
+
 @app.get("/tags/newest")
 def newest_tag(request: Request):
     with get_connection() as conn:

@@ -10,7 +10,12 @@
 
     <ul>
       {% for tag in tags %}
-        <li>{{ tag.name }}</li>
+        <li>
+          {{ tag.name }}
+          <form method="post" action="/tags/{{ tag.id }}/delete">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
       {% endfor %}
     </ul>
 

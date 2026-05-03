@@ -1,0 +1,14 @@
+{% extends "base_deck.html" %}
+
+{% block content %}
+    <h2>Edit Deck</h2>
+
+    <form method="post" action="/decks/{{ deck.id }}/edit">
+      <label for="name">Deck Name</label>
+      <input id="name" name="name" type="text" value="{{ deck.name }}" />
+      <label for="description">Description</label>
+      <input id="description" name="description" type="text" value="{{ deck.description }}" />
+
+      <button type="submit">Save deck</button>
+    </form>
+{% endblock %}

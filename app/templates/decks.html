@@ -1,23 +1,29 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Study Tracker</title>
-  </head>
-  <body>
-    <h1>Study Tracker</h1>
-    <h2>Decks</h2>
+{% extends "base_deck.html" %}
 
-    <ul>
-      {% for deck in decks %}
-        <li>
-          <strong>{{ deck.name }}</strong>
-          {% if deck.description %}
-            - {{ deck.description }}
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-    <p>There are now three migration files.</p>
-  </body>
-</html>
+{% block content %}
+  <h2>Decks</h2>
+  <ul>
+    {% for deck in decks %}
+      <li>
+        <strong>{{ deck.name }}</strong>
+        {% if deck.description %}
+          - {{ deck.description }}
+        {% endif %}
+        <a href="/decks/{{ deck.id }}/edit">Edit</a>
+        <form method="post" action="/decks/{{ deck.id }}/delete">
+          <button type="submit">Delete deck</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h2>Create a Deck</h2>
+  <form method="post" action="/decks">
+    <label for="name">Deck Name</label>
+    <input id="name" name="name" type="text" />
+    <label for="description">Description</label>
+    <input id="description" name="description" type="text" />
+
+    <button type="submit">Create deck</button>
+  </form>
+{% endblock %}

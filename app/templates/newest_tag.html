@@ -1,11 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <body>
+{% extends "base_tag.html" %}
+
+{% block content %}
     <h1>Newest Tag</h1>
     {% if tag %}
       <p><strong>{{ tag.name }}</strong></p>
     {% else %}
       <p>No tags found.</p>
     {% endif %}
-  </body>
-</html>
+{% endblock %}

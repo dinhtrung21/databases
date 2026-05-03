@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+  <body>
+    <h1>Newest Tag</h1>
+    {% if tag %}
+      <p><strong>{{ tag.name }}</strong></p>
+    {% else %}
+      <p>No tags found.</p>
+    {% endif %}
+  </body>
+</html>

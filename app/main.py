@@ -48,3 +48,17 @@ def newest_deck(request: Request):
         ).fetchone()
 
     return render(request, "newest_deck.html", deck=deck)
+
+
+@app.get("/tags")
+def list_tags(request: Request):
+    with get_connection() as conn:
+        tags = conn.execute(
+            """
+            SELECT id, name
+            FROM tags
+            ORDER BY created_at DESC
+            """
+        ).fetchall()
+
+    return render(request, "tags.html", tags=tags)

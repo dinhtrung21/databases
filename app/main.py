@@ -50,11 +50,42 @@ def newest_deck(request: Request):
         deck = fetch_newest_deck(conn)
     return render(request, "newest_deck.html", deck=deck)
 
+@app.get("/decks/{deck_id}")
+def show_deck(request: Request, deck_id: int):
+    with get_connection() as conn:
+        deck = conn.execute(t"""
+            SELECT id, name, description
+            FROM decks
+            WHERE id = {deck_id}
+            """).fetchone()
+        if deck is None:
+            return RedirectResponse("/decks", status_code=303)
+        cards = conn.execute(t"""
+            SELECT id, question, answer
+            FROM cards
+            WHERE deck_id = {deck_id}
+            ORDER BY id
+            """).fetchall()
+    return render(request, "deck_detail.html", deck=deck, cards=cards)
+
 @app.post("/decks")
 def create_deck(name: str = Form(...), description: str = Form(...)):
     with get_connection() as conn:
         create_deck_query(conn, name, description)
     return RedirectResponse("/decks", status_code=303)
+
+@app.post("/decks/{deck_id}/cards")
+def create_card(
+    deck_id: int,
+    question: str = Form(...),
+    answer: str = Form(...),
+):
+    with get_connection() as conn:
+        conn.execute(t"""
+            INSERT INTO cards (deck_id, question, answer)
+            VALUES ({deck_id}, {question}, {answer})
+            """)
+    return RedirectResponse(f"/decks/{deck_id}", status_code=303)
 
 @app.post("/decks/{deck_id}/delete")
 def delete_deck(deck_id: int):

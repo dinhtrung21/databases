@@ -1,4 +1,4 @@
-{% extends "base_deck.html" %}
+{% extends "base.html" %}
 
 {% block content %}
   <h2>Decks</h2>
@@ -9,6 +9,7 @@
         {% if deck.description %}
           - {{ deck.description }}
         {% endif %}
+        <a href="/decks/{{ deck.id }}">View deck</a>
         <a href="/decks/{{ deck.id }}/edit">Edit</a>
         <form method="post" action="/decks/{{ deck.id }}/delete">
           <button type="submit">Delete deck</button>
